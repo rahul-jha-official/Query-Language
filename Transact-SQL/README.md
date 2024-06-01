@@ -68,6 +68,10 @@ A view is a virtual table whose contents are defined by a query. Like a table, a
 
 Views can be used as security mechanisms by letting users access data through the view, without granting the users permissions to directly access the underlying base tables of the view. Views can be used to provide a backward compatible interface to emulate a table that used to exist but whose schema has changed. Views can also be used when you copy data to and from SQL Server to improve performance and to partition data.
 
+A view can be created only in the current database. A view can have a maximum of 1,024 columns.
+
+**Note: You cannot use ORDER BY clause in Views.**
+
 For More Info Visit: https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver16
 
 ### Syntax for creating view
@@ -89,3 +93,24 @@ For More Info Visit: https://learn.microsoft.com/en-us/sql/relational-databases/
     IF EXISTS(SELECT * FROM SYS.VIEWS WHERE NAME = 'AllEmployeeView')
     	DROP VIEW dbo.[AllEmployeeView];
     GO
+
+>
+    DROP VIEW IF EXISTS AllEmployeeView;
+
+>
+    --Drop View Dynamically
+    DECLARE @ViewName VARCHAR(20) = 'AllEmployeeView';
+    IF OBJECT_ID(@ViewName,'V') IS NOT NULL
+    	DECLARE @Query NVARCHAR(50) = 'DROP VIEW ' + @ViewName;
+    	EXEC sp_executesql @Query
+
+
+### Upate existing View
+>
+    ALTER VIEW AllEmployeeView AS 
+      SELECT	e.Name as FullName, 
+      		CASE WHEN e.Sex in ('F','f') THEN 'Female' ELSE 'Male' END AS Gender, 
+      		d.DepartmentName,
+      		e.DateOfJoining
+      FROM tblEmployee e INNER JOIN tblDepartment d 
+      ON e.DepartmentId = d.DId;
