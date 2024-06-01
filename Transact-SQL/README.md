@@ -6,6 +6,8 @@ T-SQL, or Transact-SQL, is a set of programming extensions from Sybase and Micro
 - [Views](#Views)
 
 ## [Date Time Object and Functions](#DateTime)
+### Data Type for Date & Time
+![DateTime Data Types](https://github.com/rahul-jha-official/Query-Language/assets/138975150/56c92c62-edde-425a-9889-5be49ca8fdb7)
 ### Getting Current Date Time
 - SELECT CURRENT_TIMESTAMP
 - SELECT GETDATE()
