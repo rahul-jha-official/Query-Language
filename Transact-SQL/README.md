@@ -3,6 +3,7 @@ T-SQL, or Transact-SQL, is a set of programming extensions from Sybase and Micro
 
 ## Table of Contents
 - [Date Time Object and Functions](#DateTime)
+- [Views](#Views)
 
 ## [Date Time Object and Functions](#DateTime)
 ### Getting Current Date Time
@@ -61,3 +62,30 @@ DECLARE @MYDATE2 AS DATETIMEOFFSET = '2024-06-01 15:06:51.910 +05:30';
 - SELECT TODATETIMEOFFSET(@MYDATE1,'+05:30')
 - SELECT DATETIMEOFFSETFROMPARTS(2015,2,28,10,20,30,124,5,30,5) --DATETIMEOFFSETFROMPARTS(yyyy,MM,dd,hh,mm,ss,ms,Time-Hour,Time-Minute,NumberOfDigitsInMS)
 - SELECT SWITCHOFFSET(@MYDATE2,'+00:00')
+
+## Views
+A view is a virtual table whose contents are defined by a query. Like a table, a view consists of a set of named columns and rows of data. A view acts as a filter on the underlying tables referenced in the view. The query that defines the view can be from one or more tables or from other views in the current or other databases. Distributed queries can also be used to define views that use data from multiple heterogeneous sources. This is useful, for example, if you want to combine similarly structured data from different servers, each of which stores data for a different region of your organization.
+
+Views can be used as security mechanisms by letting users access data through the view, without granting the users permissions to directly access the underlying base tables of the view. Views can be used to provide a backward compatible interface to emulate a table that used to exist but whose schema has changed. Views can also be used when you copy data to and from SQL Server to improve performance and to partition data.
+
+For More Info Visit: https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver16
+
+### Syntax for creating view
+> 
+    CREATE VIEW AllEmployeeView AS
+    SELECT	e.Name as FullName, 
+    		CASE WHEN e.Sex in ('F','f') THEN 'Female' ELSE 'Male' END AS Gender, 
+    		d.DepartmentName 
+    FROM tblEmployee e INNER JOIN tblDepartment d 
+    ON e.DepartmentId = d.DId;
+    GO
+
+### Syntax for getting data from view
+>
+    SELECT * FROM dbo.[AllEmployeeView]
+
+### Syntax for Dropping View
+>
+    IF EXISTS(SELECT * FROM SYS.VIEWS WHERE NAME = 'AllEmployeeView')
+    	DROP VIEW dbo.[AllEmployeeView];
+    GO
