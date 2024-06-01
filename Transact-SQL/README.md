@@ -1,1 +1,63 @@
 # T-SQL
+T-SQL, or Transact-SQL, is a set of programming extensions from Sybase and Microsoft that add several features to the Structured Query Language (SQL). It is an extension of the SQL language and is used to interact with relational databases. T-SQL expands on the SQL standard to include procedural programming, local variables, various support functions for string processing, date processing, mathematics, etc., and changes to the DELETE and UPDATE statements.
+
+## Table of Contents
+- [Date Time Object and Functions](#DateTime)
+
+## [Date Time Object and Functions](#DateTime)
+### Getting Current Date Time
+- SELECT CURRENT_TIMESTAMP
+- SELECT GETDATE()
+- SELECT SYSDATETIME()
+- SELECT GETUTCDATE()
+- SELECT SYSUTCDATETIME()
+- SELECT SYSDATETIMEOFFSET()
+
+### Create Date Time From Parts
+- SELECT DATEFROMPARTS(2022,10,24) --DATEFROMPARTS(yyyy,MM,dd)
+- SELECT DATETIMEFROMPARTS(2015,2,28,10,20,30,124) --DATETIMEFROMPARTS(yyyy,MM,dd,hh,mm,ss,ms)
+- SELECT DATETIME2FROMPARTS(2015,2,28,10,20,30,124,5) --DATETIME2FROMPARTS(yyyy,MM,dd,hh,mm,ss,ms,NumberOfDigitsInMS)
+
+### Getting Date Object Parts
+- SELECT YEAR(GETDATE()) AS Year
+- SELECT MONTH(GETDATE()) AS Month
+- SELECT DAY(GETDATE()) AS Day
+
+### Date Time Functions
+- **DIFFERENCE OF 2 DATE - DATEDIFF(INTERVAL, STARTDATE,ENDDATE)**
+  - SELECT DATEDIFF(YEAR,'1996-10-17','2024-06-01')
+  - SELECT DATEDIFF(MONTH,'1996-10-17','2024-06-01')
+  - SELECT DATEDIFF(DAY,'1996-10-17','2024-06-01')
+- **ADD INTERVAL IN DATE - DATEADD(INTERVAL,INCREAMENT,DATE)**
+  - SELECT DATEADD(DAY,-1,GETDATE())
+- **PART OF DATE - DATEPART(INTERVAL,DATE)**
+  - SELECT DATEPART(DAY,GETDATE())
+  - SELECT DATEPART(WEEK,GETDATE())
+  - SELECT DATEPART(MONTH,GETDATE())
+  - SELECT DATEPART(SECOND,GETDATE())
+- **NAME FROM DATE - DATENAME(INTERVAL,DATE)**
+  - SELECT DATENAME(MONTH,DATEFROMPARTS(2022,10,24)) --October
+  - SELECT DATENAME(WEEKDAY,DATEFROMPARTS(2022,10,24)) --Monday
+ 
+### FORMAT DATETIME - FORMAT(DATE, FORMAT, COUNTRY-CODE)
+DECLARE @DATE DATETIME = '2024-06-01 14:55:08.070';
+- SELECT FORMAT(@DATE, 'yyyy-MM');--2024-06
+- SELECT FORMAT(@DATE, 'yyyyMMdd');--20240601
+- SELECT FORMAT(@DATE, 'D'); --Saturday, June 1, 2024
+- SELECT FORMAT(@DATE, 'd');--6/1/2024
+- SELECT FORMAT(@DATE, 'D', 'zh-CN');--2024年6月1日
+- SELECT FORMAT(@DATE, 'D', 'es-ES');--sábado, 1 de junio de 2024
+
+### PARSE DATE
+- SELECT PARSE('2024-06-01' AS DATETIME)
+- SELECT PARSE('sábado, 1 de junio de 2024' AS DATE USING 'es-ES')
+- SELECT CONVERT(DATETIME, '2024-06-01')
+- SELECT CAST('2024-06-01' AS DATETIME)
+
+### DATE TIME OFFSET
+DECLARE @MYDATE1 AS DATETIMEOFFSET = '2024-06-01 15:06:51.910';
+DECLARE @MYDATE2 AS DATETIMEOFFSET = '2024-06-01 15:06:51.910 +05:30';
+- SELECT @MYDATE1, @MYDATE2
+- SELECT TODATETIMEOFFSET(@MYDATE1,'+05:30')
+- SELECT DATETIMEOFFSETFROMPARTS(2015,2,28,10,20,30,124,5,30,5) --DATETIMEOFFSETFROMPARTS(yyyy,MM,dd,hh,mm,ss,ms,Time-Hour,Time-Minute,NumberOfDigitsInMS)
+- SELECT SWITCHOFFSET(@MYDATE2,'+00:00')
