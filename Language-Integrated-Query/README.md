@@ -4,6 +4,9 @@ Language Integrated Query allows filtering, ordering and transforming the collec
 
 LINQ can work with other types of collections like databases or XML files (Syntax remains the same).
 
+![image](https://github.com/rahul-jha-official/Query-Language/assets/138975150/c8a5607d-e26f-41d0-97fc-08c8efd7a022)
+
+
 # Benefit of LINQ
 - It allows a simple, efficient, and unified way of querying over different kind of data.
 - Queries execute only when result is needed.
