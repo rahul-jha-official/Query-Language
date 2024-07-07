@@ -46,7 +46,7 @@ Likewise, if we have the following case:
     }
     return validCustomers;
 
-We will have called the IsRelevant method for each customer for no reason.
+We will have called the IsValid method for each customer for no reason.
 
 **Properies**
 - Deferred Execution means that the evaulation of a LINQ expression is delayed until the value is actually needed.
