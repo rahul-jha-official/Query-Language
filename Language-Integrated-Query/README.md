@@ -62,4 +62,42 @@ An extension method is a method defined outside of a type, that can be called up
 
 Extension Methods allow us to add new functionality to a type without modifying it.
 
-
+# Method Syntax V/s Query Syntax
+<table>
+    <thead>
+        <tr>
+            <th>Method Syntax</th>
+            <th>Query Syntax</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                Method syntax is also known as Fluent syntax. It grounds on extension methods included in the Enumerable and Queryable static classes.</br></br>
+                Example:</br>
+                var numsMS = numbers.Where(n => n < 10).OrderBy(n => n);
+            </td>
+            <td>
+                LINQ Query syntax structure is similar to SQL query structure. </br></br>
+                Example:</br>
+                var numQS = from number in numbers where number < 10 orderby number select number;
+            </td>
+        </tr>
+        <tr>
+            <td>Pure C#</td>
+            <td>New language to learn.</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Easy to learn if you know SQL.</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Not all LINQ operations are supported, like Distinct.</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Some Operation are simpler to write, like join.</td>
+        </tr>
+    </tbody>
+</table>
