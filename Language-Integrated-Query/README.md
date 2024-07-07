@@ -11,10 +11,48 @@ LINQ can work with other types of collections like databases or XML files (Synta
 - Queries execute only when result is needed.
 - Code written with LINQ is cleaner, more readable and shorter.
 
-# Deferred Execution
+# Lazy evaluation – “I’ll do it when it’s needed”
+Lazy evaluation – or in LINQ’s term, deferred execution – means that something will only be called and evaluated when needed.
+
+>  Lazy evaluation of an object means that its creation is deferred until it is first used. Lazy evaluation is primarily used to improve performance, avoid wasteful computation, and reduce program memory requirements.
+
+In layman’s terms – until you use something in any form of (ToList(), ToArray(), for each, Any(), or any other action that uses the enumerator – the result will not happen, despite the code going over the line.
+
+The difference is miniscule, but very, very important, as we will soon see.
+Take the following code, for example:
+
+    var validCustomers = customers.Where(x => IsValid(x));
+    var ajay = validCustomers.FirstOrDefault(x => x.Name == “Ajay”);
+    var priyansh = validCustomers.FirstOrDefault(x => x.Name == “Priyansh”); 
+    var nakun = validCustomers.FirstOrDefault(x => x.Name == “Nakun”);
+
+This code snippet will run the '(x => IsValid(x))' lambda three times per customer instead of once!
+
+If IsValid is an expensive action (such as a DB call, or an external service call), or if it has any side effects (such as counting overall relevant customers) then we absolutely do not want to run it any more than necessary.
+
+In cases such as this, we should enumerate on customers before saving it to the validCustomers variable.
+
+    var validCustomers = customers.Where(x => IsValid(x)).ToList();
+    var ajay = validCustomers.FirstOrDefault(x => x.Name == “Ajay”);
+    var priyansh = validCustomers.FirstOrDefault(x => x.Name == “Priyansh”); 
+    var nakun = validCustomers.FirstOrDefault(x => x.Name == “Nakun”);
+
+Likewise, if we have the following case:
+
+    var validCustomers = customers.Where(x => IsValid(x)).ToList()
+    if (shouldReturn)
+    {
+     return;
+    }
+    return validCustomers;
+
+We will have called the IsRelevant method for each customer for no reason.
+
+**Properies**
 - Deferred Execution means that the evaulation of a LINQ expression is delayed until the value is actually needed.
 - It allows us to work on the latest data.
 - It improves the performance, as the query is materialized only when it's actually needed, so we can avoid unnecessary execution.
+
 
 # Lambda Expression
 Lambda Expression allow us to create anonymous function. In C# we can use function like any other types - store them in variables or pass as parameters.
