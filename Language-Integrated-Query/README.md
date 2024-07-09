@@ -40,13 +40,13 @@ In cases such as this, we should enumerate on customers before saving it to the 
 Likewise, if we have the following case:
 
     var validCustomers = customers.Where(x => IsValid(x)).ToList()
-    if (shouldReturn)
+    if (shouldReturn) //shouldReturn is true
     {
      return;
     }
     return validCustomers;
 
-We will have called the IsValid method for each customer for no reason.
+We would have called the IsValid method for each customer for no reason.
 
 **Properies**
 - Deferred Execution means that the evaulation of a LINQ expression is delayed until the value is actually needed.
