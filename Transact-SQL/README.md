@@ -12,7 +12,7 @@ T-SQL, or Transact-SQL, is a set of programming extensions from Sybase and Micro
 	CREATE TABLE [TableName]
 	(
 		[ColumnName1] DataType1 [ConstrainsIfAny],
-    [ColumnName2] DataType2 [ConstrainsIfAny]
+		[ColumnName2] DataType2 [ConstrainsIfAny]
 	)
 
 Example:
@@ -21,14 +21,14 @@ Example:
     (
     	[Id] int not null identity(1,1),
     	[Name] varchar(20) not null,
-      [TimeStamp] date not null
+      	[TimeStamp] date not null
     );
 
 ### Syntax for creating a Table Primary Key Constraints
 	CREATE TABLE [TableName]
 	(
 		[ColumnName1] DataType1 [ConstrainsIfAny],
-    CONSTRAINT ConstraintName PRIMARY KEY([ColumnName1])
+		CONSTRAINT ConstraintName PRIMARY KEY([ColumnName1])
 	)
 
 Example:
@@ -36,14 +36,14 @@ Example:
     CREATE TABLE [tblExample]
     (
     	[Id] int not null identity(1,1),
-      CONSTRAINT PK_tblExample_Id PRIMARY KEY([Id])
+      	CONSTRAINT PK_tblExample_Id PRIMARY KEY([Id])
     );
 
 ### Syntax for creating a Table Unique Key Constraints
 	CREATE TABLE [TableName]
 	(
 		[ColumnName1] DataType1 [ConstrainsIfAny],
-    CONSTRAINT ConstraintName UNIQUE([ColumnName1])
+		CONSTRAINT ConstraintName UNIQUE([ColumnName1])
 	)
 
 Example:
@@ -51,30 +51,30 @@ Example:
     CREATE TABLE [tblExample]
     (
     	[Id] int not null identity(1,1),
-      CONSTRAINT UQ_tblExample_Id UNIQUE([Id])
+      	CONSTRAINT UQ_tblExample_Id UNIQUE([Id])
     );
 
 ### Syntax for creating a Table Check Constraints
 	CREATE TABLE [TableName]
 	(
 		[ColumnName1] DataType1 [ConstrainsIfAny],
-    CONSTRAINT ConstraintName CHECK(Condition)
+		CONSTRAINT ConstraintName CHECK(Condition)
 	)
 
 Example:
 
-    CREATE TABLE [tblExample]
-    (
-    	[Id] int not null identity(1,1),
-      [Name] varchar(50) not null,
-      CONSTRAINT CK_tblExample_Name CHECK(LEN([Name]) = 10)
-    );
+	CREATE TABLE [tblExample]
+	(
+		[Id] int not null identity(1,1),
+		[Name] varchar(50) not null,
+		CONSTRAINT CK_tblExample_Name CHECK(LEN([Name]) = 10)
+	);
 
 ### Syntax for creating a Table Foreign Key Constraints
 	CREATE TABLE [TableName]
 	(
 		[ColumnName1] DataType1 [ConstrainsIfAny],
-    CONSTRAINT ConstraintName FOREIGN KEY([ColumnName1]) REFERENCES [tblReference] ([ReferencedColumn])
+		CONSTRAINT ConstraintName FOREIGN KEY([ColumnName1]) REFERENCES [tblReference] ([ReferencedColumn])
 	)
 
 Example:
@@ -82,7 +82,7 @@ Example:
     CREATE TABLE [tblExample]
     (
     	[Id] int not null identity(1,1),
-      CONSTRAINT FK_tblExample_Id FOREIGN KEY([Id]) REFERENCES [tblReference] ([RId])
+     	CONSTRAINT FK_tblExample_Id FOREIGN KEY([Id]) REFERENCES [tblReference] ([RId])
     );
 
 ## [Date Time Object and Functions](#DateTime)
