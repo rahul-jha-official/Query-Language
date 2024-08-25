@@ -2,8 +2,88 @@
 T-SQL, or Transact-SQL, is a set of programming extensions from Sybase and Microsoft that add several features to the Structured Query Language (SQL). It is an extension of the SQL language and is used to interact with relational databases. T-SQL expands on the SQL standard to include procedural programming, local variables, various support functions for string processing, date processing, mathematics, etc., and changes to the DELETE and UPDATE statements.
 
 ## Table of Contents
+- [Create Table](#Tables)
 - [Date Time Object and Functions](#DateTime)
 - [Views](#Views)
+
+## [Create Table](#Tables)
+
+### Syntax for creating a Table
+	CREATE TABLE [TableName]
+	(
+		[ColumnName1] DataType1 [ConstrainsIfAny],
+    [ColumnName2] DataType2 [ConstrainsIfAny]
+	)
+
+Example:
+
+    CREATE TABLE [tblExample]
+    (
+    	[Id] int not null identity(1,1),
+    	[Name] varchar(20) not null,
+      [TimeStamp] date not null
+    );
+
+### Syntax for creating a Table Primary Key Constraints
+	CREATE TABLE [TableName]
+	(
+		[ColumnName1] DataType1 [ConstrainsIfAny],
+    CONSTRAINT ConstraintName PRIMARY KEY([ColumnName1])
+	)
+
+Example:
+
+    CREATE TABLE [tblExample]
+    (
+    	[Id] int not null identity(1,1),
+      CONSTRAINT PK_tblExample_Id PRIMARY KEY([Id])
+    );
+
+### Syntax for creating a Table Unique Key Constraints
+	CREATE TABLE [TableName]
+	(
+		[ColumnName1] DataType1 [ConstrainsIfAny],
+    CONSTRAINT ConstraintName UNIQUE([ColumnName1])
+	)
+
+Example:
+
+    CREATE TABLE [tblExample]
+    (
+    	[Id] int not null identity(1,1),
+      CONSTRAINT UQ_tblExample_Id UNIQUE([Id])
+    );
+
+### Syntax for creating a Table Check Constraints
+	CREATE TABLE [TableName]
+	(
+		[ColumnName1] DataType1 [ConstrainsIfAny],
+    CONSTRAINT ConstraintName CHECK(Condition)
+	)
+
+Example:
+
+    CREATE TABLE [tblExample]
+    (
+    	[Id] int not null identity(1,1),
+      [Name] varchar(50) not null,
+      CONSTRAINT CK_tblExample_Name CHECK(LEN([Name]) = 10)
+    );
+
+### Syntax for creating a Table Foreign Key Constraints
+	CREATE TABLE [TableName]
+	(
+		[ColumnName1] DataType1 [ConstrainsIfAny],
+    CONSTRAINT ConstraintName FOREIGN KEY([ColumnName1]) REFERENCES [tblReference] ([ReferencedColumn])
+	)
+
+Example:
+
+    CREATE TABLE [tblExample]
+    (
+    	[Id] int not null identity(1,1),
+      CONSTRAINT FK_tblExample_Id FOREIGN KEY([Id]) REFERENCES [tblReference] ([RId])
+    );
 
 ## [Date Time Object and Functions](#DateTime)
 ### Data Type for Date & Time
