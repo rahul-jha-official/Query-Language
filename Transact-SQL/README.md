@@ -5,6 +5,7 @@ T-SQL, or Transact-SQL, is a set of programming extensions from Sybase and Micro
 - [Create Table](#Tables)
 - [Date Time Object and Functions](#DateTime)
 - [Views](#Views)
+- [Synonym](#Synonym)
 - [Json](#Json)
 
 ## [Create Table](#Tables)
@@ -197,6 +198,20 @@ For More Info Visit: https://learn.microsoft.com/en-us/sql/relational-databases/
       		e.DateOfJoining
       FROM tblEmployee e INNER JOIN tblDepartment d 
       ON e.DepartmentId = d.DId;
+
+## [Synonym](#Synonym)
+Synonym helps us to provide simple & small name for the table. We can also define synonym for the table which not exist into the system now.
+
+Syntax: CREATE SYNONYM ShortName FOR FullTableName
+
+Example: 
+
+	IF OBJECT_ID(N't_dpt', N'SN') IS NOT NULL
+		DROP SYNONYM t_dpt
+	
+	CREATE SYNONYM t_dpt FOR dbo.tblDepartment;
+	
+	SELECT * FROM t_dpt
 
 ## [Json](#Json)
 There is no separate datatype for storing json value. To store Json Data in column of a table we uses NVARCHAR datatype.
