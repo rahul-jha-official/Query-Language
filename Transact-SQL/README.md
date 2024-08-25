@@ -5,6 +5,7 @@ T-SQL, or Transact-SQL, is a set of programming extensions from Sybase and Micro
 - [Create Table](#Tables)
 - [Date Time Object and Functions](#DateTime)
 - [Views](#Views)
+- [Json](#Json)
 
 ## [Create Table](#Tables)
 
@@ -196,3 +197,83 @@ For More Info Visit: https://learn.microsoft.com/en-us/sql/relational-databases/
       		e.DateOfJoining
       FROM tblEmployee e INNER JOIN tblDepartment d 
       ON e.DepartmentId = d.DId;
+
+## [Json](#Json)
+There is no separate datatype for storing json value. To store Json Data in column of a table we uses NVARCHAR datatype.
+
+### FUNCTION: ISJSON
+To check whether a string is in valid JSON format. It returns 1/0. 1 if data is valid JSON else 0.
+
+Example:
+
+	DECLARE @data NVARCHAR(200) = '{"name":"Rahul", "mobile": ["123","456"], "addresses": [{"line1":"39","line2":"hazaryana","city":"jhansi"}]}';
+	SELECT ISJSON(@data) AS IsValidJson
+
+### FUNCTION: JSON_QUERY
+When using JSON with SQL Server, you can use the JSON_QUERY() function to extract an object or an array from a JSON string. JSON_QUERY always returns an object or an array.
+
+Example:
+
+	DECLARE @data NVARCHAR(200) = '{"name":"Rahul", "mobile": ["123","456"], "addresses": [{"line1":"39","line2":"hazaryana","city":"jhansi"}]}';
+	SELECT JSON_QUERY(@data, '$') AS WholeJson
+	-- $ sign signifies root path
+	SELECT JSON_QUERY(@data, '$.name') AS Name
+	-- As Name is a scalar value JSON_QUERY will return null
+	SELECT JSON_QUERY(@data, '$.addresses') AS AllAddresses
+	-- Return the array of Addresses
+
+### FUNCTION: JSON_VALUE
+Extracts a scalar value from a JSON string.
+
+Example:
+
+	DECLARE @data NVARCHAR(200) = '{"name":"Rahul", "mobile": ["123","456"], "addresses": [{"line1":"39","line2":"hazaryana","city":"jhansi"}]}';
+	SELECT JSON_VALUE(@data, '$') AS WholeJson
+	-- Since whole json is object thus null is returned
+	SELECT JSON_VALUE(@data, '$.name') AS Name
+	-- As Name is a scalar value JSON_VALUE will return name value: Rahul
+	SELECT JSON_VALUE(@data, '$.addresses[0].city') AS AllAddresses
+	-- Return the City of 0th index Address
+
+### Strict in Path
+if we add strict in path then if correct path is not specified exception will be thrown.
+
+Example:
+
+	DECLARE @data NVARCHAR(200) = '{"name":"Rahul", "mobile": ["123","456"], "addresses": [{"line1":"39","line2":"hazaryana","city":"jhansi"}]}';
+	SELECT JSON_QUERY(@data, 'strict $.mobile') AS MobileObject
+	SELECT JSON_VALUE(@data, 'strict $.mobile[0]') AS MobileAt0
+	
+	-- Exception will be thrown for below as column does not exist in JSON
+	SELECT JSON_QUERY(@data, 'strict $.address') AS AddressObject
+	SELECT JSON_VALUE(@data, 'strict $.address[0]') AS AddressAt0
+
+### FUNCTION: JSON_MODIFY
+Used to modify JSON Data.
+
+Example:
+
+	DECLARE @data NVARCHAR(200) = '{"name":"Rahul", "mobile": ["123","456"], "addresses": [{"line1":"39","line2":"hazaryana","city":"jhansi"}]}';
+	-- Modify Mobile Array's 1st Index
+	select JSON_MODIFY(@data, 'strict  $.mobile[1]', '888')
+	-- Modify whole Mobile Array
+	select JSON_MODIFY(@data, 'strict  $.mobile', JSON_QUERY('["111","222"]'))
+	-- Add new column date
+	select JSON_MODIFY(@data, '$.date', cast(getutcdate() as varchar(10)))
+
+### Convert a table to JSON Object
+- Return an array of rows: SELECT * FROM tblExample FOR JSON PATH
+- Return a object which has root as 'example': SELECT * FROM tblExample FOR JSON PATH, ROOT('employee')
+
+### Convert a JSON Object to Table
+
+	DECLARE @data NVARCHAR(200) = '{"name":"Rahul", "DOB": "1997-10-02", "mobile": ["123","456"], "addresses": [{"line1":"39","line2":"hazaryana","city":"jhansi"}]}';
+	SELECT * 
+	FROM OPENJSON(@data, '$')
+	WITH 
+	(
+		FirstName VARCHAR(30) '$.name',
+		DOB DATE,
+		FirstContact VARCHAR(10) '$.mobile[0]',
+		Address NVARCHAR(MAX) '$.addresses[0]' AS JSON
+	)
