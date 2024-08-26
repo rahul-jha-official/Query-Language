@@ -3,7 +3,7 @@ T-SQL, or Transact-SQL, is a set of programming extensions from Sybase and Micro
 
 ## Table of Contents
 - [Create Table](#Tables)
-- [Date Time Object and Functions](#DateTime)
+- [Date Time Object and Functions](#Datetime)
 - [Views](#Views)
 - [Synonym](#Synonym)
 - [Json](#Json)
@@ -87,7 +87,7 @@ Example:
      	CONSTRAINT FK_tblExample_Id FOREIGN KEY([Id]) REFERENCES [tblReference] ([RId])
     );
 
-## [Date Time Object and Functions](#DateTime)
+## [Date Time Object and Functions](#Datetime)
 ### Data Type for Date & Time
 ![DateTime Data Types](https://github.com/rahul-jha-official/Query-Language/assets/138975150/56c92c62-edde-425a-9889-5be49ca8fdb7)
 ### Getting Current Date Time
